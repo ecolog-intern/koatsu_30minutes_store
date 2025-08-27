@@ -12,6 +12,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config import Config
 from selenium.webdriver.support.ui import Select
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 class TokyoScraping:
     def __init__(self, folder_path):
@@ -22,22 +25,25 @@ class TokyoScraping:
         
     def scraping(self):
         #実際にスクレイピングを行う
-        options = webdriver.ChromeOptions()
+        options = Options()
 
-        # ★ プロキシ設定
-        options.add_argument('--proxy-server=http://proxy:8080')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--ignore-certificate-errors')
+        #options.add_argument("--headless") #EC2にデプロイするときに外す
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")  
+        options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-        # ★ ダウンロード先指定（prefsの設定）
         prefs = {
-            "download.default_directory": self.folder_path,
-            "download.prompt_for_download": False,  # ダウンロード時の確認ダイアログを無効化
-            "directory_upgrade": True
+            "download.default_directory": self.folder_path,  
+            "download.prompt_for_download": False,
+            "directory_upgrade": True,
+            "safebrowsing.enabled": True
         }
         options.add_experimental_option("prefs", prefs)
 
-        driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()),
+            options=options
+        )
 
         # 証明書許可のために、一定時間後に指定位置をクリックする処理を別スレッドで実行
         def click_cert_ok():

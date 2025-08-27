@@ -5,3 +5,116 @@
 エラー発生: join() argument must be str, bytes, or os.PathLike object, not 'list'
 エラー発生: join() argument must be str, bytes, or os.PathLike object, not 'list'
 エラー発生: join() argument must be str, bytes, or os.PathLike object, not 'list'
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+エラー発生: [ERROR] ZIPファイルの中に有効なファイルが見つかりませんでした。
+エラー発生: Message: unknown error: net::ERR_PROXY_CONNECTION_FAILED
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff69b9c3d85+79397]
+	GetHandleVerifier [0x0x7ff69b9c3de0+79488]
+	(No symbol) [0x0x7ff69b76c0fa]
+	(No symbol) [0x0x7ff69b768ea0]
+	(No symbol) [0x0x7ff69b759cb9]
+	(No symbol) [0x0x7ff69b75ba71]
+	(No symbol) [0x0x7ff69b759fd6]
+	(No symbol) [0x0x7ff69b759a36]
+	(No symbol) [0x0x7ff69b7596fa]
+	(No symbol) [0x0x7ff69b7572cb]
+	(No symbol) [0x0x7ff69b757b4c]
+	(No symbol) [0x0x7ff69b7700aa]
+	(No symbol) [0x0x7ff69b8140ee]
+	(No symbol) [0x0x7ff69b7eb19a]
+	(No symbol) [0x0x7ff69b813344]
+	(No symbol) [0x0x7ff69b7eaf73]
+	(No symbol) [0x0x7ff69b7b41b1]
+	(No symbol) [0x0x7ff69b7b4f43]
+	GetHandleVerifier [0x0x7ff69bc8e1ed+3005069]
+	GetHandleVerifier [0x0x7ff69bc8831d+2980797]
+	GetHandleVerifier [0x0x7ff69bca7e0d+3110573]
+	GetHandleVerifier [0x0x7ff69b9dd6de+184190]
+	GetHandleVerifier [0x0x7ff69b9e516f+215567]
+	GetHandleVerifier [0x0x7ff69b9cc974+115220]
+	GetHandleVerifier [0x0x7ff69b9ccb29+115657]
+	GetHandleVerifier [0x0x7ff69b9b3268+11016]
+	BaseThreadInitThunk [0x0x7fff85dae8d7+23]
+	RtlUserThreadStart [0x0x7fff86efc34c+44]
+
+エラー発生: Message: unknown error: net::ERR_PROXY_CONNECTION_FAILED
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff69b9c3d85+79397]
+	GetHandleVerifier [0x0x7ff69b9c3de0+79488]
+	(No symbol) [0x0x7ff69b76c0fa]
+	(No symbol) [0x0x7ff69b768ea0]
+	(No symbol) [0x0x7ff69b759cb9]
+	(No symbol) [0x0x7ff69b75ba71]
+	(No symbol) [0x0x7ff69b759fd6]
+	(No symbol) [0x0x7ff69b759a36]
+	(No symbol) [0x0x7ff69b7596fa]
+	(No symbol) [0x0x7ff69b7572cb]
+	(No symbol) [0x0x7ff69b757b4c]
+	(No symbol) [0x0x7ff69b7700aa]
+	(No symbol) [0x0x7ff69b8140ee]
+	(No symbol) [0x0x7ff69b7eb19a]
+	(No symbol) [0x0x7ff69b813344]
+	(No symbol) [0x0x7ff69b7eaf73]
+	(No symbol) [0x0x7ff69b7b41b1]
+	(No symbol) [0x0x7ff69b7b4f43]
+	GetHandleVerifier [0x0x7ff69bc8e1ed+3005069]
+	GetHandleVerifier [0x0x7ff69bc8831d+2980797]
+	GetHandleVerifier [0x0x7ff69bca7e0d+3110573]
+	GetHandleVerifier [0x0x7ff69b9dd6de+184190]
+	GetHandleVerifier [0x0x7ff69b9e516f+215567]
+	GetHandleVerifier [0x0x7ff69b9cc974+115220]
+	GetHandleVerifier [0x0x7ff69b9ccb29+115657]
+	GetHandleVerifier [0x0x7ff69b9b3268+11016]
+	BaseThreadInitThunk [0x0x7fff85dae8d7+23]
+	RtlUserThreadStart [0x0x7fff86efc34c+44]
+
+エラー発生: Message: unknown error: net::ERR_PROXY_CONNECTION_FAILED
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff69b9c3d85+79397]
+	GetHandleVerifier [0x0x7ff69b9c3de0+79488]
+	(No symbol) [0x0x7ff69b76c0fa]
+	(No symbol) [0x0x7ff69b768ea0]
+	(No symbol) [0x0x7ff69b759cb9]
+	(No symbol) [0x0x7ff69b75ba71]
+	(No symbol) [0x0x7ff69b759fd6]
+	(No symbol) [0x0x7ff69b759a36]
+	(No symbol) [0x0x7ff69b7596fa]
+	(No symbol) [0x0x7ff69b7572cb]
+	(No symbol) [0x0x7ff69b757b4c]
+	(No symbol) [0x0x7ff69b7700aa]
+	(No symbol) [0x0x7ff69b8140ee]
+	(No symbol) [0x0x7ff69b7eb19a]
+	(No symbol) [0x0x7ff69b813344]
+	(No symbol) [0x0x7ff69b7eaf73]
+	(No symbol) [0x0x7ff69b7b41b1]
+	(No symbol) [0x0x7ff69b7b4f43]
+	GetHandleVerifier [0x0x7ff69bc8e1ed+3005069]
+	GetHandleVerifier [0x0x7ff69bc8831d+2980797]
+	GetHandleVerifier [0x0x7ff69bca7e0d+3110573]
+	GetHandleVerifier [0x0x7ff69b9dd6de+184190]
+	GetHandleVerifier [0x0x7ff69b9e516f+215567]
+	GetHandleVerifier [0x0x7ff69b9cc974+115220]
+	GetHandleVerifier [0x0x7ff69b9ccb29+115657]
+	GetHandleVerifier [0x0x7ff69b9b3268+11016]
+	BaseThreadInitThunk [0x0x7fff85dae8d7+23]
+	RtlUserThreadStart [0x0x7fff86efc34c+44]
+

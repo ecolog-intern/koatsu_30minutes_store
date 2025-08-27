@@ -1,21 +1,12 @@
 #このパッケージの実行はこのファイルで行う
 import os
-import warnings
 from config import Config
-import pandas as pd
 from folder_file_making import FolderFileMaking
 from scraping import Scraping
 from zip_thawing import ZipThawing
-from excel_writing import ExcelWriting
 from mail_sending import MailSending
 
 def main():
-    #スクレイピングの設定
-    os.environ["http_proxy"] = "http://proxy:8080"
-    os.environ["https_proxy"] = "http://proxy:8080"
-    os.environ["no_proxy"] = "127.0.0.1,localhost"
-    warnings.simplefilter("ignore")
-    
     #カレントディクショナリに変更
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
@@ -29,17 +20,16 @@ def main():
 
     # 各フィルタリングエントリを処理
     for area in all_area:
-        for attempt in range(3):
+        for attempt in range(1): # エラー対応で数回回すことも考える
             try:
             # 対象のフォルダおよびExcelファイルを作成（存在しない場合は新規作成）
                 folder_making = FolderFileMaking(base_folder, area)
                 yesterday_path = folder_making.folder_making()
 
-
-                scraping = Scraping(area, yesterday_path)
+                scraping = Scraping(area, yesterday_path) # , config.driver_path
                 scraping.scraping()
                 zipthwing = ZipThawing(yesterday_path)
-                excel_file = zipthwing.zip_thawing()
+                zipthwing.zip_thawing()
                 
                 break
             
