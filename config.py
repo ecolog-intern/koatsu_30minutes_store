@@ -8,8 +8,9 @@ class Config:
         #顧客一覧
         self.consumer_filtering_file = 'consumer_region_filtering.xlsx'
         #self.consumer_filtering_file = "filtering_test.xlsx"
+        
         #作成したファイルの掃き出し先(クロームのスクレイピングの関係で相対パスだときついかも)
-        self.base_folder = r'\\f-hikari02\法人事業本部\事業開発部\02.アライアンス事業部\31.ガスでん\27.インターン用\20.高圧30分値\高圧実行\フォルダ保存用'
+        self.base_folder = r'C:\Users\kensei\intern\koatsu_30minutes_store\フォルダ保存用' # S3に出力変更
         #エラーログ
         self.error_log = "error_log.txt"
         
