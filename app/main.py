@@ -1,45 +1,29 @@
-# main.py
 import os
-from config import Config
-from folder_file_making import FolderFileMaking
+import asyncio
+from datetime import datetime, timedelta
 from scraping import Scraping
-from zip_thawing import ZipThawing
-from post_s3 import Post_S3
 
-def main():
-    #カレントディクショナリに変更
+async def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
 
-    #configから変数を抽出
-    config = Config()
-    base_folder = config.base_folder # 'ファイル保存用までのpath'
-    
-    all_area = ['中国','関西','東北','北陸','九州','関東','中部']
+    #日付の設定
+    today = datetime.today()
+    yesterday = today - timedelta(days=1)
+    yesterday_str = yesterday.strftime("%Y%m%d")
+    yesterday_month_str = yesterday.strftime("%Y%m")
+    month_day = yesterday.strftime('%m%d')  
+    year2digit = yesterday.strftime('%y') 
+    yesterday_tsuki_nichi = f"{yesterday.month}月{yesterday.day}日"
 
-    # 各フィルタリングエントリを処理
+    all_area = ['関西']
+    # all_area = ['中国','関西','東北','北陸','九州','関東','中部', '北海道', '四国']
+
     for area in all_area:
-        for attempt in range(3): # エラー対応で数回回すことも考える
-            try:
-            # 対象のフォルダおよびExcelファイルを作成
-                folder_making = FolderFileMaking(base_folder, area)
-                yesterday_path = folder_making.folder_making()
-                scraping = Scraping(area, yesterday_path)
-                scraping.scraping()
-                zipthwing = ZipThawing(yesterday_path)
-                zipthwing.zip_thawing()
+        scraping = Scraping(area, yesterday_month_str, yesterday_str)
+        await scraping.scraping()
 
-                # yesterday_path 内に作成されたエクセルファイルを　config.s3_object_path へあげる
-                uploader = Post_S3()
-                uploader.upload_file(yesterday_path, area)
-                break
-            
-            except Exception as e:
-                if attempt == 2:
-                    log_path = config.error_log
-                    with open(log_path, "a", encoding="utf-8") as f:
-                        f.write("エラー発生: " + str(e) + "\n")
-            
+
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
     

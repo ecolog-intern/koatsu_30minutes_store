@@ -1,0 +1,11 @@
+beautifulsoup4==4.14.2
+boto3==1.40.47
+botocore==1.40.47
+bs4==0.0.2
+jmespath==1.0.1
+python-dateutil==2.9.0.post0
+s3transfer==0.14.0
+six==1.17.0
+soupsieve==2.8
+typing_extensions==4.15.0
+urllib3==2.5.0

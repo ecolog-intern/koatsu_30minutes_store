@@ -1,26 +1,13 @@
-# docker-compose.yml
-version: "3.9"
+version: '3.8'
+
 services:
   scraper:
-    container_name: koatsu-30minutes-scraping
     build:
       context: .
-      dockerfile: docker/Dockerfile.dev
+      dockerfile: Dockerfile
+    container_name: koatsu_scraper
+    env_file:
+      - .env
     environment:
-      - DEBUG=True
-      # AWS関連
-      - AWS_ACCESS_KEY_ID =${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY =${AWS_SECRET_ACCESS_KEY}
-      - AWS_STORAGE_BUCKET_NAME =${bucket_name}
-      - AWS_STRAGE_PROJECT_NAME =${project}
-      - AWS_REGION =${region}
-      
-      # スクレイピング時の証明書
-      - CLIENT_CERT=${CLIENT_CERT}
-      - CLIENT_KEY=${CLIENT_KEY}
-      - CA_CHAIN=${CA_CHAIN}
-      
-    volumes:
-      - .:/app
-
-    command: python app/main.py
+      - TZ=Asia/Tokyo
+      - PYTHONUNBUFFERED=1
