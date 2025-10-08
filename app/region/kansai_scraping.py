@@ -42,43 +42,127 @@ class KansaiScraping:
         print("🔗 関西電力サイトにアクセス中...")
         os.makedirs(self.download_dir, exist_ok=True)
 
-        # curlコマンドを構築（古いTLS対応のためOpenSSL利用）
+        cookie_path = "/tmp/kepco_cookie.txt"
+
+        # --- 1️⃣ トップページ ---
         cmd = [
             "curl",
             "--silent", "--show-error",
-            "--insecure",              # 証明書検証をスキップ（TLSエラー回避）
-            "--cert", self.cert_path,  # クライアント証明書
-            "--key", self.key_path,    # クライアント秘密鍵
+            "--insecure",
+            "--cert", self.cert_path,
+            "--key", self.key_path,
             "--tlsv1.0",
-            "-L",                      # ← 追加: リダイレクトを自動追跡
+            "-c", cookie_path,   # ← Cookie保存
+            "-L",
             self.url
         ]
+        subprocess.run(cmd, capture_output=True, text=False)
 
-        # 実行
-        result = subprocess.run(cmd, capture_output=True, text=False)
+        # --- 2️⃣ NSC提供情報メニュー遷移 ---
+        nsc_url = "https://www4.kepco.co.jp/takusouinfo/H24D/H24DF702J.jsp"
+        cmd2 = [
+            "curl",
+            "--silent", "--show-error",
+            "--insecure",
+            "--cert", self.cert_path,
+            "--key", self.key_path,
+            "--tlsv1.0",
+            "-b", cookie_path,   # ← Cookie再利用
+            "-c", cookie_path,   # ← Cookie更新保存
+            "-L",
+            nsc_url
+        ]
+        result2 = subprocess.run(cmd2, capture_output=True, text=False)
+        html2 = result2.stdout.decode("cp932", errors="replace")
 
-        if result.returncode != 0:
-            print("❌ 通信エラー:", result.stderr.decode("utf-8", errors="ignore"))
-            return
+        print("✅ ＮＳＣ提供情報メニュー中継ページ取得成功")
 
-        # 明示的にWindows-31J(cp932)でデコード
-        html_bytes = result.stdout
-        html_content = html_bytes.decode("cp932", errors="replace")
+        # --- 3️⃣ フォーム自動送信（POST） ---
+        post_url = "https://www4.kepco.co.jp/takusouinfo/H24DF700A04.do"
+        print(f"➡ フォーム送信（POST）: {post_url}")
 
-        print("✅ HTML取得成功")
+        cmd3 = [
+            "curl",
+            "--silent", "--show-error",
+            "--insecure",
+            "--cert", self.cert_path,
+            "--key", self.key_path,
+            "--tlsv1.0",
+            "-b", cookie_path,
+            "-c", cookie_path,
+            "-L",
+            "-X", "POST",
+            post_url
+        ]
+        result3 = subprocess.run(cmd3, capture_output=True, text=False)
+        html3 = result3.stdout.decode("cp932", errors="replace")
+
+
+        # --- 4️⃣ 二重ログイン警告ページを強制的に突破 ---
+        force_login_url = "https://www4.kepco.co.jp/takusouinfo/H24DF700A03.do"
+        print(f"⚠️ 二重ログイン警告を検知。強制ログインします: {force_login_url}")
+
+        cmd4 = [
+            "curl",
+            "--silent", "--show-error",
+            "--insecure",
+            "--cert", self.cert_path,
+            "--key", self.key_path,
+            "--tlsv1.0",
+            "-b", "/tmp/kepco_cookie.txt",
+            "-c", "/tmp/kepco_cookie.txt",
+            "-L",
+            "-X", "POST",
+            "-d", "actionRequest=Login",
+            "-d", "odbango=H24DF701",
+            "-d", "updateFlg=",
+            "-d", "userId=ESZ773000006",
+            "-d", "password=",
+            force_login_url
+        ]
+        result4 = subprocess.run(cmd4, capture_output=True, text=False)
+        html4 = result4.stdout.decode("cp932", errors="replace")
+
+        print("✅ 強制ログイン完了（実際のメニュー画面に遷移）")
         print("=" * 80)
-        print("最初の画面のHTML:")
-        print("=" * 80)
-        print(html_content[:2000])  # 長すぎる場合は冒頭だけ表示
+        print(html4)
         print("=" * 80)
 
-        # BeautifulSoupで解析
-        soup = BeautifulSoup(html_content, "html.parser")
-        title = soup.title.string if soup.title else "タイトル不明"
-        print(f"🧩 ページタイトル: {title}")
+        # 保存
+        with open(os.path.join(self.download_dir, "nsc_force_login.html"), "w", encoding="cp932") as f:
+            f.write(html4)
 
-        # HTMLをファイル保存（テキストモードで書く）
-        file_path = os.path.join(self.download_dir, "first_page.html")
-        with open(file_path, "w", encoding="cp932", errors="replace") as f:
-            f.write(html_content)
-        print(f"📄 HTMLを {file_path} に保存しました。")
+
+        # --- 5️⃣ 「同時同量支援・低圧30分値提供」ボタンを押す ---
+        print("➡ 『同時同量支援・低圧30分値提供』に遷移します...")
+
+        target_url = "https://www4.kepco.co.jp/takusouinfo/H24DF710A02.do"
+        cmd5 = [
+            "curl",
+            "--silent", "--show-error",
+            "--insecure",
+            "--cert", self.cert_path,
+            "--key", self.key_path,
+            "--tlsv1.0",
+            "-b", "/tmp/kepco_cookie.txt",
+            "-c", "/tmp/kepco_cookie.txt",
+            "-L",
+            "-X", "POST",
+            "-d", "actionRequest=DojiDoryouShien",
+            "-d", "odbango=H24DF710",
+            "-d", "updateFlg=",
+            target_url
+        ]
+
+        result5 = subprocess.run(cmd5, capture_output=True, text=False)
+        html5 = result5.stdout.decode("cp932", errors="replace")
+
+        print("✅ ページ取得成功（同時同量支援メニュー）")
+        print("=" * 80)
+        print(html5[:1500])
+        print("=" * 80)
+
+        with open(os.path.join(self.download_dir, "dojidoryou_page.html"), "w", encoding="cp932") as f:
+            f.write(html5)
+        print("📄 HTMLを保存しました: downloads/dojidoryou_page.html")
+
