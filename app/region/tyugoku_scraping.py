@@ -1,38 +1,30 @@
+# tyugoku_scraping.py
 import os
-import boto3
-import base64
+import shutil
 from playwright.async_api import async_playwright
+from zip_thawing import ZipThawing
 
 class TyugokuScraping:
-    def __init__(self, region, yesterday_month_str, yesterday_str):
+    def __init__(self, region, config):
         self.region = region
-        self.yesterday_month_str = yesterday_month_str
-        self.yesterday_str = yesterday_str
-        self.S3_BUCKET = os.getenv('bucket_name')
-        self.S3_PREFIX = f"tyugoku/{yesterday_month_str}/"
-        self.AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID')
-        self.AWS_SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-        self.AWS_REGION = os.getenv('region')
-        client_cert_base64 = os.getenv('CLIENT_CERT_BASE64')
-        client_key_base64 = os.getenv('CLIENT_KEY_BASE64')
-        self.cert_content = base64.b64decode(client_cert_base64)
-        self.key_content = base64.b64decode(client_key_base64)
-        self.download_dir = "downloads"
-        self.s3_client = boto3.client(
-            "s3",
-            aws_access_key_id=self.AWS_ACCESS_KEY,
-            aws_secret_access_key=self.AWS_SECRET_KEY,
-            region_name=self.AWS_REGION,
-        )
-        self.domain = os.getenv('CHOGOKU_DOMAIN')
-        self.url = os.getenv('CHUGOKU_URL')
-        
+        self.config = config
+        self.s3_client = config.s3_client
+        self.S3_BUCKET = config.bucket_name
+        self.download_dir = config.download_folder
+        self.domain = config.tyugoku_domain
+        self.url = config.tyugoku_url
+        self.cert_content = config.cert_content
+        self.key_content = config.key_content
+        self.yesterday_str = config.yesterday_str
+        self.yesterday_month_str = config.yesterday_month_str
 
     async def scraping(self):
         os.makedirs(self.download_dir, exist_ok=True)
+        print("= DEBUG CONFIG INFO =")
+        print("domain:", self.domain)
+        print("url:", self.url)
 
         async with async_playwright() as p:
-            # --- ブラウザ起動（ヘッドレス） ---
             browser = await p.chromium.launch(headless=True)
             context = await browser.new_context(
                 accept_downloads=True,
@@ -40,7 +32,7 @@ class TyugokuScraping:
                     {
                         "origin": self.domain,
                         "cert": self.cert_content,
-                        "key": self.key_content
+                        "key": self.key_content,
                     }
                 ]
             )
@@ -71,7 +63,6 @@ class TyugokuScraping:
             found = False
             for i, row in enumerate(rows):
                 text = await row.inner_text()
-                print(f"行 {i}: {text[:100]}")  # 最初の100文字のみ表示
                 if "特高・高圧日毎３０分電力量" in text and self.yesterday_str in text:
                     print("対象行を発見、ファイルをクリックします。")
                     file_link = await row.query_selector("a")
@@ -84,13 +75,17 @@ class TyugokuScraping:
                     print(f"✅ ダウンロード完了: {save_path}")
                     found = True
 
+                    # zip解凍 → csv
+                    zipthwing = ZipThawing(self.download_dir)
+                    csv_path = zipthwing.zip_thawing()
+
                     # ---- S3アップロード ----
-                    s3_key = f"フォルダ保存用/{self.region}/{self.yesterday_month_str}/{self.yesterday_str}/{download.suggested_filename}"
-                    self.s3_client.upload_file(save_path, self.S3_BUCKET, s3_key)
+                    csv_filename = os.path.basename(csv_path)
+                    s3_key = f"フォルダ保存用/{self.region}/{self.yesterday_month_str}/{self.yesterday_str}/{csv_filename}"
+                    self.s3_client.upload_file(csv_path, self.S3_BUCKET, s3_key)
                     print(f"☁️ S3アップロード完了: s3://{self.S3_BUCKET}/{s3_key}")
 
-                    # ローカル削除（任意）
-                    os.remove(save_path)
+                    shutil.rmtree(self.download_dir)
                     print("🗑️ ローカルファイル削除済み")
                     break
 
@@ -98,7 +93,3 @@ class TyugokuScraping:
                 print("⚠️ 該当データが見つかりませんでした。")
 
             await browser.close()
-
-
-
-

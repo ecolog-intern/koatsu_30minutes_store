@@ -1,28 +1,30 @@
+# scraping.py
 '''
 スクレイピングの実行はこのファイルで行う
 region_scrapingフォルダの中にそれぞれの地方のスクレイピングはまとめてある
 '''
 from region.kansai_scraping import KansaiScraping
-# from region.tohoku_scraping import TohokuScraping
-# from region.hokuriku_scraping import HokurikuScraping
-# from region.kyusyu_scraping import KyusyuScraping
-# from region.tokyo_scraping import TokyoScraping
-# from region.tyubu_scraping import TyubuScraping
-
-# from region.tyugoku_scraping import TyugokuScraping
+from region.tohoku_scraping import TohokuScraping
+from region.hokuriku_scraping import HokurikuScraping
+from region.kyusyu_scraping import KyusyuScraping
+from region.kanto_scraping import KantoScraping
+from region.tyubu_scraping import TyubuScraping
+from region.hokkaido_scraping import HokkaidoScraping
+from region.shikoku_scraping import ShikokuScraping
+from region.tyugoku_scraping import TyugokuScraping
 
 class Scraping:
-    def __init__(self, region, yesterday_month_str, yesterday_str):
+    def __init__(self, region, config):
         self.region = region
-        self.yesterday_month_str = yesterday_month_str
-        self.yesterday_str = yesterday_str
-        self.kansai = KansaiScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.tohoku = TohokuScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.hokuriku = HokurikuScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.kyusyu = KyusyuScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.tokyo = TokyoScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.tyubu = TyubuScraping(self.region, self.yesterday_month_str, self.yesterday_str)
-        # self.tyugoku = TyugokuScraping(self.region, self.yesterday_month_str, self.yesterday_str)
+        self.kansai = KansaiScraping(region, config)
+        self.tyugoku = TyugokuScraping(region, config)
+        self.tohoku = TohokuScraping(region, config)
+        self.hokuriku = HokurikuScraping(region, config)
+        self.kyusyu = KyusyuScraping(region, config)
+        self.hokkaido = HokkaidoScraping(region, config)
+        self.shikoku = ShikokuScraping(region, config)
+        self.kanto = KantoScraping(region, config)
+        self.tyubu = TyubuScraping(region, config)
         
     async def scraping(self):
         #実際にはここでregionごとにスクレイピングを実行する
@@ -37,8 +39,12 @@ class Scraping:
         elif self.region == '九州':
             await self.kyusyu.scraping()
         elif self.region == '関東':
-            await self.tokyo.scraping()
+            await self.kanto.scraping()
         elif self.region == '中部':
             await self.tyubu.scraping()
+        elif self.region == '北海道':
+            await self.hokkaido.scraping()
+        elif self.region == '四国':
+            await self.shikoku.scraping()
         
         

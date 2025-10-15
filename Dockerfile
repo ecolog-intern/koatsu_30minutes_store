@@ -29,9 +29,12 @@ ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 ENV OPENSSL_ALLOW_UNSAFE_LEGACY_RENEGOTIATION=1
 
 # アプリケーションファイルをコピー
-COPY app/ ./app/
+# COPY app/ ./app/
+COPY ./app ./
+ENV PYTHONPATH=/app
 
 # appのmain.pyを実行
 # デバッグ用: bashで起動する場合はこちらをコメントアウト解除
 # CMD ["bash"]
-CMD ["sh", "-c", "OPENSSL_CONF=/etc/ssl/openssl.cnf python app/main.py"]
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["sh", "-c", "OPENSSL_CONF=/etc/ssl/openssl.cnf python main.py"]

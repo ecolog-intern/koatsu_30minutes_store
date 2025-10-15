@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: koatsu_scraper
     env_file:
-      - .env
+      - ./.env
     environment:
       - TZ=Asia/Tokyo
       - PYTHONUNBUFFERED=1
