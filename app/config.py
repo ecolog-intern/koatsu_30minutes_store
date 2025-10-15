@@ -65,6 +65,6 @@ class Config:
         yesterday = today - timedelta(days=1)
         self.yesterday_str = yesterday.strftime("%Y%m%d")
         self.yesterday_month_str = yesterday.strftime("%Y%m")
-        self.month_day = yesterday.strftime('%m%d')  
-        self.year2digit = yesterday.strftime('%y') 
+        self.month_day = yesterday.strftime('%m%d') 
+        self.year2digit = yesterday.strftime('%y')
         self.yesterday_tsuki_nichi = f"{yesterday.month}月{yesterday.day}日"
