@@ -43,7 +43,7 @@ class Scraping:
         elif self.region == '中部':
             await self.tyubu.scraping()
         elif self.region == '北海道':
-            await self.hokkaido.scraping()
+            self.hokkaido.scraping()
         elif self.region == '四国':
             await self.shikoku.scraping()
         
