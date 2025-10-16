@@ -9,8 +9,7 @@ async def main():
     os.chdir(script_dir)
     config = Config()
 
-    all_area = ['北海道'] # '中国','東北','北陸','九州','中部','関東'
-    # all_area = ['関西','四国']
+    all_area = ['中国','東北','北陸','九州','中部','関東','北海道','関西','四国'] 
     for area in all_area:
         print(f"========{area}の処理中========")
         scraping = Scraping(area, config)
