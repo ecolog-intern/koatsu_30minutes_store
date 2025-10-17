@@ -1,0 +1,47 @@
+# AWS設定
+aws_region = "ap-northeast-1"
+
+# ECRイメージURL（ECRリポジトリのURLを指定）
+ecr_image_url = "123456789012.dkr.ecr.ap-northeast-1.amazonaws.com/koatsu-scraper:latest"
+
+# ECSタスクリソース
+task_cpu    = "1024"  # 256, 512, 1024, 2048, 4096
+task_memory = "2048"  # 512-8192 (タスクCPUに応じて選択可能な値が異なる)
+
+# AWS認証情報
+aws_access_key_id     = "YOUR_AWS_ACCESS_KEY_ID"
+aws_secret_access_key = "YOUR_AWS_SECRET_ACCESS_KEY"
+
+# S3設定
+bucket_name = "koatsu-30minutes-test"
+project     = "koatsu-30minutes"
+
+# クライアント証明書（Base64エンコード済み）
+# .envファイルのCLIENT_CERT_BASE64とCLIENT_KEY_BASE64の値をコピー
+client_cert_base64 = "YOUR_BASE64_ENCODED_CERTIFICATE"
+client_key_base64  = "YOUR_BASE64_ENCODED_KEY"
+
+# スクレイピングURL設定
+# デフォルト値が設定されているため、変更が必要な場合のみ指定
+# chugoku_domain = "https://takusouhp.energia.co.jp"
+# chugoku_url    = "https://takusouhp.energia.co.jp/COMM/xhtml/COMMLOP.xhtml"
+# tohoku_domain  = "https://takuso2-web.takuso.tohoku-epco.co.jp"
+# tohoku_url     = "https://takuso2-web.takuso.tohoku-epco.co.jp/G83_PPS/"
+# kanto_domain   = "https://pu00.www6.tepco.co.jp"
+# kanto_url      = "https://pu00.www6.tepco.co.jp/org_web/LVA2RG/pgsslogin.faces"
+# tyubu_domain   = "https://epcdss-www.chuden.co.jp"
+# tyubu_url      = "https://epcdss-www.chuden.co.jp/46264/"
+# hokuriku_domain = "https://wsweb4.rikuden.co.jp"
+# hokuriku_url    = "https://wsweb4.rikuden.co.jp/tfx/tfxo110/tfxo110s010"
+# kyusyu_domain   = "https://nsc-www.network.kyuden.co.jp"
+# kyusyu_url      = "https://nsc-www.network.kyuden.co.jp/BP_WEB_SERVER/"
+# kansai_domain   = "https://www4.kepco.co.jp"
+# kansai_url      = "https://www4.kepco.co.jp/takusou/index.html"
+# hokkaido_domain = "https://nsc.hepco.co.jp"
+# hokkaido_url    = "https://nsc.hepco.co.jp/LNXWPWSS06OH"
+# shikoku_domain  = "https://wsc3.yonden.co.jp"
+# shikoku_url     = "https://wsc3.yonden.co.jp/PPS/"
+
+# スケジュール設定
+schedule_expression = "cron(0 18 * * ? *)"  # 毎日午前3時JST (18:00 UTC)
+schedule_enabled    = true
