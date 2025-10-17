@@ -140,9 +140,7 @@ class KansaiScraping:
         html5 = result5.stdout.decode("cp932", errors="replace")
 
         print("✅ ページ取得成功（同時同量支援メニュー）")
-        print("=" * 80)
-        print(html5[:1500])
-        print("=" * 80)
+
 
         out_path = os.path.join(self.download_dir, "dojidoryou_page.html")
         with open(out_path, "w", encoding="cp932") as f:
