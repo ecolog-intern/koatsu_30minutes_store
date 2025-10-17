@@ -37,4 +37,4 @@ ENV PYTHONPATH=/app
 # デバッグ用: bashで起動する場合はこちらをコメントアウト解除
 # CMD ["bash"]
 # CMD ["tail", "-f", "/dev/null"]
-CMD ["sh", "-c", "OPENSSL_CONF=/etc/ssl/openssl.cnf python main.py"]
+CMD ["python", "main.py"]
